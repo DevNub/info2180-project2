@@ -1,9 +1,9 @@
-
+//ADDED EXTRA FEATURE: MULTIPLE BACKGROUNDS
 window.onload = function(){
 
 var puzzlearea = $("#puzzlearea");
 var puzzle = puzzlearea.children();
-var isMoveable = document.getElementsByTagName("div");
+var isMoveable = document.getElementsByClassName("movablepiece");
 var shufflebutt = document.getElementById("shufflebutton");
 var spaceL=null;
 var spaceT=null;
@@ -16,6 +16,55 @@ shufflebutt.onclick = function(){
 	shuffle(puzzle);
 }
 
+//ADDITIONAL IMAGES
+function addbg() {
+    var functions = ['btn1()', 'btn2()', 'btn3()', 'btn4()'];
+    var div = document.getElementById('controls');
+    var ctr = 1;
+    for (var i in functions) {
+
+        var btn = document.createElement('button');
+        var txt = document.createTextNode(String('image '+ctr));
+
+        btn.appendChild(txt);
+        btn.setAttribute('type', 'button');
+        btn.setAttribute('onclick', functions[i]);
+        btn.setAttribute('id', ctr);
+        div.appendChild(btn);
+        ctr++;
+    }
+
+//var bg = document.getElementsByClassName("movablepiece");
+
+btn1 = function btn1() {
+	for(let count = 0; count < puzzle.length; count++){
+		$(puzzle[count]).css({'background-image':'url(1.jpg'});
+	}
+	load();
+	alert('Press ok to load image 1');
+}    
+btn2 = function btn2() {
+	for(let count = 0; count < puzzle.length; count++){
+		$(puzzle[count]).css({'background-image':'url(2.jpg'});
+	}
+	load();
+	alert('Press ok to load image 2');
+}    
+btn3 = function btn3() {
+	for(let count = 0; count < puzzle.length; count++){
+		$(puzzle[count]).css({'background-image':'url(3.jpg'});
+	}
+	load();
+	alert('Press ok to load image 3');
+}
+btn4 = function btn4() {
+	for(let count = 0; count < puzzle.length; count++){
+		$(puzzle[count]).css({'background-image':'url(4.jpg'});
+	}
+	load();
+	alert('Press ok to load image 4');
+}
+}
 
 //INITIALIZE TILES OR REFRESH THE TILE NUMBERS
 function load(){
@@ -53,10 +102,43 @@ function testCase(){
 		check = nearSpace(spaceL,spaceT,tile);
 		console.log(check);
 		if(check==1){
-			puzzle[count].style.color="red";
+			$(puzzle[count]).addClass("movablepiece");
+			//puzzle[count].style.color="red";
 			//puzzle[count].onmouseout=puzzle[count].style.color="blue";
 		}
 	}
+}
+
+//PERFORM SWAP WITH EMPTY SPACE
+function swap(spot,space){
+	var oldSpace = [];
+	oldSpace[0]=space;
+	oldSpace[1]=spaceL;
+	oldSpace[2]=spaceT;
+
+	console.log('spot '+puzzle[spot]);
+	
+	//console.log('wsfsads'+puzzle[spot].style.top);//=spaceT;
+		//puzzle[spot].style.left=spaceL;
+	
+
+	
+	//spaceL=piece.style.left;
+	//spaceT=piece.style.top;
+	console.log(space);
+}
+
+//MOVE A PUZZLE PIECE
+function moveIt(){
+	var pieces = document.getElementsByTagName("div");
+	console.log(pieces);
+        for(var i = 0; i < pieces.length; i++) {
+        	var onePiece = pieces[i];
+            onePiece.onclick = function() {
+            	console.log('fsdgafadf');
+            //	swap();
+            }
+        }
 }
 
 //INITIALIZE SPACE X Y VALUES
@@ -74,6 +156,7 @@ function nearSpace(L,T,tile){
 	if((L == null)||(T==null)){
 		initSL();
 		initST();
+		space=16;
 		console.log('spaceL: '+spaceL);
 		console.log('spaceT: '+spaceT);
 	}
@@ -96,11 +179,6 @@ function nearSpace(L,T,tile){
 	}
 
 	return result;
-}
-
-//SLIDE A PUZZLE PIECE
-function slide(tile){
-
 }
 
 //REFRESH THE BACKGROUND TILES
@@ -201,7 +279,9 @@ function shuffle(array){
 
 
 // S T A R T - H E R E
+addbg();
 load();
-
+moveIt();
 testCase();
+
 }
